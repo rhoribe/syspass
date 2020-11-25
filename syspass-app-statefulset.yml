@@ -29,21 +29,18 @@ spec:
               port: 80
             periodSeconds: 10
             failureThreshold: 3
-            initialDelaySeconds: 150
+            initialDelaySeconds: 30
           readinessProbe:
             httpGet:
               path: / 
               port: 80
             periodSeconds: 10
             failureThreshold: 3
-            initialDelaySeconds: 120
+            initialDelaySeconds: 15
           resources:
             requests:
-              cpu: "10m"
-              memory: "50Mi"
-            limits:
-              cpu: "15m"
-              memory: "256Mi"  
+              cpu: 100m
+              memory: 256Mi          
       volumes:
         - name : syspass-config
           persistentVolumeClaim:
