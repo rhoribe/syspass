@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: syspass-ingress
+  namespace: syspass
+spec:
+  rules:
+  - host: syspass.local
+    http:
+      paths:
+        - path: / 
+          pathType: Prefix
+          backend:
+            service: 
+              name: syspass-app-svc
+              port:
+                number: 80

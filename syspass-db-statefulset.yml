@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syspass-db-st
+  namespace: syspass
+spec:
+  template:
+    metadata:
+      name: syspass-db
+      labels:
+        app: syspass-db
+    spec:
+      containers:
+        - name: syspass-db-container
+          image: mysql:5.7.32
+          args:
+            - "--default-authentication-plugin=mysql_native_password"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: syspass-db-secret
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 3306
+          volumeMounts:   
+            - name : syspass-voldb
+              mountPath: /var/lib/mysql
+      volumes:
+        - name : syspass-voldb
+          persistentVolumeClaim:
+            claimName: syspass-db-pvc     
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syspass-db
+  serviceName: syspass-db-svc
+
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: syspass-db-svc
+  namespace: syspass
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306 
+  selector:
+    app: syspass-db
+  
+
