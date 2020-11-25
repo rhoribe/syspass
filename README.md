@@ -14,5 +14,5 @@
     kubect apply -f syspass-app-hpa.yml 
     kubect apply -f syspass-ingress.yml
 
-Obs: Default  user root passwor mysql is 'syspass'
+Obs: Default  user root password mysql is 'syspass'
  
